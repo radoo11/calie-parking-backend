@@ -1,0 +1,35 @@
+@startuml
+
+App -> Server : /lottery-draw : GET
+
+alt user has no drawn parking space
+	Server -> App: NOT_FOUND 404
+else user drawn parking space successfully
+    Server -> App: OK 200 { lottery_draw, drawn_parking_space}
+end
+
+App -> Server : /lottery-draw/<int:lottery_draw_id> : PUT
+
+alt drawn parking space expired
+	Server -> App: METHOD_NOT_ALLOWED 403
+else drawn parking space confirmed correctly
+    Server -> App: OK 200
+end
+
+App -> Server : /lottery-draw/expirations : GET
+
+alt no expired waived parking spaces
+	Server -> App: NOT_FOUND 404
+else expired waived parking spaces exists
+    Server -> App: OK 200 { id, space_number}
+end
+
+App -> Server : /lottery-draw/expirations : PUT {space_number}
+
+alt parking space busy
+	Server -> App: NOT_FOUND 404
+else expired lottery draw correctly reserved
+    Server -> App: OK 200 { id, space_number}
+end
+
+@enduml

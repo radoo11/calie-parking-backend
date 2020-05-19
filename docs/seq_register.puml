@@ -1,0 +1,14 @@
+@startuml
+
+App -> Server : /auth/register : POST {username, password, name, email}
+
+
+alt user registered
+	Server -> App: CONFLICT 409
+else if bad data:
+    Server -> App: BAD_REQUEST 400
+else username registered
+    Server -> App: OK 200 {auth_token}
+end
+
+@enduml

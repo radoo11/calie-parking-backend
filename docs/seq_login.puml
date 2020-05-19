@@ -1,0 +1,12 @@
+@startuml
+
+App -> Server : /auth/login : POST {username, password}
+
+alt password incorrect
+	Server -> App: UNAUTHORIZED 401
+else username registered
+    Server -> App: OK 200 {auth_token}
+end
+
+
+@enduml

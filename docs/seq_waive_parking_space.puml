@@ -1,0 +1,20 @@
+@startuml
+
+App -> Server : /parking-space : POST {dates}
+
+alt user has no parking_space
+	Server -> App: NOT_FOUND 404
+else parking space waived
+    Server -> App: OK 200
+end
+
+App -> Server : /parking-space : GET {dates}
+
+alt user has no waived parking spaces
+	Server -> App: NOT_FOUND 404
+else user has waived parking spaces
+    Server -> App: OK 200 {dates}
+end
+
+@enduml
+

@@ -1,0 +1,1 @@
+web: gunicorn --timeout 3600 --reload app:app
